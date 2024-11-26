@@ -29,9 +29,6 @@
     <!-- PLUGIN REGISTRATION -->
     <HadronicEnergyCorrectionPlugins>SoftwareCompensation</HadronicEnergyCorrectionPlugins>
     <EmShowerPlugin>LCEmShowerId</EmShowerPlugin>
-    <EmShowerPlugin>
-      <RmsLowECut>90</RmsLowECut>
-    </EmShowerPlugin>
     <PhotonPlugin>LCPhotonId</PhotonPlugin>
     <ElectronPlugin>LCElectronId</ElectronPlugin>
     <MuonPlugin>LCMuonId</MuonPlugin>

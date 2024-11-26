@@ -2,7 +2,8 @@
 Instructions and scripts to run the PandoraPFA reconstruction within ALLEGRO full simulation
 
 ## Setup
-###Setup the environment (I am working with release 2024-10-03)
+### Setup the environment
+(I am working with release 2024-10-03)
 ```
 source /cvmfs/sw.hsf.org/key4hep/setup.sh -r 2024-10-03
 ```
