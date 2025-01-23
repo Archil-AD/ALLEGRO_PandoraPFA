@@ -65,7 +65,7 @@ ExtSvc += [evtsvc]
 
 from k4MarlinWrapper.inputReader import create_reader, attach_edm4hep2lcio_conversion
 read = create_reader(reco_args.inputFiles,evtsvc)
-read.OutputLevel = DEBUG
+read.OutputLevel = INFO
 TopAlg.append(read)
 
 from Configurables import PodioOutput
@@ -188,12 +188,23 @@ tracksFromGenParticles = TracksFromGenParticles("CreateTracksFromGenParticles",
                                                     OutputLevel = INFO)
 TopAlg += [tracksFromGenParticles]
 
+### Muon Hits
+from Configurables import MuonCaloHitDigi
+MuonCaloHitDigitizer = MuonCaloHitDigi("MuonCaloHitDigitizer",
+    inputSimHits = "MuonTaggerPhiTheta",
+    outputDigiHits = "MuonCaloHitCollection",
+    readoutName = "MuonTaggerPhiTheta",
+    OutputLevel = INFO,
+)
+TopAlg += [MuonCaloHitDigitizer]
 
+## Clustering
 if doSWClustering or doTopoClustering:
     from Configurables import CreateEmptyCaloCellsCollection
     createemptycells = CreateEmptyCaloCellsCollection("CreateEmptyCaloCells")
     createemptycells.cells.Path = "emptyCaloCells"
     TopAlg += [createemptycells]
+
 
 # Function that sets up the sequence for producing SW clusters given an input cell collection
 def setupSWClusters(inputCells,
@@ -393,7 +404,7 @@ if doTopoClustering:
 ################################################
 from Configurables import MarlinProcessorWrapper
 pandora = MarlinProcessorWrapper('DDMarlinPandora')
-pandora.OutputLevel = DEBUG
+pandora.OutputLevel = INFO
 pandora.ProcessorType = 'DDPandoraPFANewProcessor'
 pandora.Parameters = {
                                       "PandoraSettingsXmlFile": ["PandoraSettingsDefault.xml"],
@@ -415,6 +426,7 @@ pandora.Parameters = {
                                       "ECalCaloHitCollections" : ["ECalBarrelModuleThetaMergedPositioned"],
                                       #"HCalCaloHitCollections" : ["HCalBarrelReadoutPositioned","HCalEndcapReadoutPositioned"],
                                       "HCalCaloHitCollections" : ["HCalBarrelReadoutPositioned"],
+                                      #"MuonCaloHitCollections" : ["MuonCaloHitCollection"],
                                       "TrackCollections" : ["TracksFromGenParticles"],
 
                       }

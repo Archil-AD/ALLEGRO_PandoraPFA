@@ -24,7 +24,6 @@
     <IsMonitoringEnabled>true</IsMonitoringEnabled>
     <ShouldDisplayAlgorithmInfo>false</ShouldDisplayAlgorithmInfo>
     <ShouldCollapseMCParticlesToPfoTarget>true</ShouldCollapseMCParticlesToPfoTarget>
-    <Monitoring>true</Monitoring>
 
     <!-- PLUGIN REGISTRATION -->
     <HadronicEnergyCorrectionPlugins>SoftwareCompensation</HadronicEnergyCorrectionPlugins>
@@ -32,6 +31,16 @@
     <PhotonPlugin>LCPhotonId</PhotonPlugin>
     <ElectronPlugin>LCElectronId</ElectronPlugin>
     <MuonPlugin>LCMuonId</MuonPlugin>
+
+    <!-- PLUGIN SETTINGS -->
+    <LCMuonId>
+        <MinMuonTrackSegmentHitsCut>5</MinMuonTrackSegmentHitsCut>
+        <MuonRmsCut>15.625</MuonRmsCut>
+    </LCMuonId>
+
+    <LCEmShowerId>
+      <RmsLowECut>80</RmsLowECut>
+    </LCEmShowerId>
 
     <!-- ALGORITHM SETTINGS -->
 
@@ -43,6 +52,42 @@
         <OutputMuonCaloHitListName>MuonYokeHits</OutputMuonCaloHitListName>
         <ReplacementTrackListName>Tracks</ReplacementTrackListName>
         <ReplacementCaloHitListName>CaloHits</ReplacementCaloHitListName>
+    </algorithm>
+
+    <!-- Standalone muon clustering -->
+    <algorithm type = "MuonReconstruction">
+        <algorithm type = "ConeClustering" description = "MuonClusterFormation">
+            <TanConeAngleCoarse>0.3</TanConeAngleCoarse>
+            <ConeApproachMaxSeparation>2000</ConeApproachMaxSeparation>
+            <MaxClusterDirProjection>2000</MaxClusterDirProjection>
+            <ShouldUseIsolatedHits>true</ShouldUseIsolatedHits>
+            <LayersToStepBackCoarse>30</LayersToStepBackCoarse>
+            <AdditionalPadWidthsCoarse>1</AdditionalPadWidthsCoarse>
+            <SameLayerPadWidthsCoarse>1.8</SameLayerPadWidthsCoarse>
+            <ShouldUseTrackSeed>false</ShouldUseTrackSeed>
+            <MaxTrackSeedSeparation>0</MaxTrackSeedSeparation>
+            <MaxLayersToTrackSeed>0</MaxLayersToTrackSeed>
+            <MaxLayersToTrackLikeHit>0</MaxLayersToTrackLikeHit>
+            <TrackPathWidth>0</TrackPathWidth>
+        </algorithm>
+        <MinClusterOccupiedLayers>5</MinClusterOccupiedLayers>
+        <MinClusterLayerSpan>5</MinClusterLayerSpan>
+        <MaxClusterCaloHits>30</MaxClusterCaloHits>
+        <!-- Input lists -->
+        <InputTrackListName>Tracks</InputTrackListName>
+        <InputCaloHitListName>CaloHits</InputCaloHitListName>
+        <InputMuonCaloHitListName>MuonYokeHits</InputMuonCaloHitListName>
+        <!-- Output lists -->
+        <OutputTrackListName>MuonRemovedTracks</OutputTrackListName>
+        <OutputCaloHitListName>MuonRemovedCaloHits</OutputCaloHitListName>
+        <OutputMuonCaloHitListName>MuonRemovedYokeHits</OutputMuonCaloHitListName>
+        <OutputMuonClusterListName>MuonClusters</OutputMuonClusterListName>
+        <OutputMuonPfoListName>MuonPfos</OutputMuonPfoListName>
+        <!-- Current list management -->
+        <ReplacementTrackListName>MuonRemovedTracks</ReplacementTrackListName>
+        <ReplacementCaloHitListName>MuonRemovedCaloHits</ReplacementCaloHitListName>
+        <ReplaceCurrentClusterList>false</ReplaceCurrentClusterList>
+        <ReplaceCurrentPfoList>false</ReplaceCurrentPfoList>
     </algorithm>
 
     <!-- Standalone photon clustering -->
